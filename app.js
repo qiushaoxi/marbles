@@ -20,16 +20,21 @@ var async = require('async');
 var fs = require('fs');
 var os = require('os');
 var ws = require('ws');											//websocket module 
-var winston = require('winston');								//logginer module
+//var winston = require('winston');								//logginer module
 
 // --- Set Our Things --- //
-var logger = new (winston.Logger)({
+/*var logger = new (winston.Logger)({
 	level: 'debug',
 	transports: [
 		new (winston.transports.Console)({ colorize: true }),
 	]
-});
+});*/
+
+var log4js = require('log4js');
+var logger = log4js.getLogger('Marbles');
+
 var more_entropy = randStr(32);
+process.env.creds_filename = 'marbles3.json'
 var helper = require(__dirname + '/utils/helper.js')(process.env.creds_filename, logger);
 var fcw = require('./utils/fc_wrangler/index.js')({ block_delay: helper.getBlockDelay() }, logger);
 var ws_server = require('./utils/websocket_server_side.js')({ block_delay: helper.getBlockDelay() }, fcw, logger);
@@ -119,11 +124,12 @@ process.on('uncaughtException', function (err) {
 // ------------------------------------------------------------------------------------------------------------------------------
 process.env.app_state = 'starting';
 process.env.app_first_setup = 'yes';
-helper.checkConfig();
+//helper.checkConfig(); //Joshua 扯淡功能
 setupWebSocket();
 
 var hash = helper.getMarbleStartUpHash();
-if (hash === helper.getHash()) {
+var credentialHash = helper.getHash();
+if (hash === credentialHash) {
 	console.log('');
 	console.log('');
 	logger.debug('Detected that we have launched successfully before');
@@ -279,7 +285,8 @@ function create_assets(build_marbles_users) {
 
 				// --- Create Marbles--- //
 				async.each(marbles, function (owner_obj, marble_cb) { 			//iter through each one 
-					create_marbles(owner_obj.id, owner_obj.username, marble_cb);
+					//Joshua init do not create marbles
+					//create_marbles(owner_obj.id, owner_obj.username, marble_cb);
 				}, function (err) {												//marble owner creation finished
 					logger.debug('- finished creating asset');
 					if (err == null) {
@@ -416,7 +423,7 @@ function setupWebSocket() {
 
 				//enroll admin
 				if (data.configure === 'enrollment') {
-					helper.write(data);										//write new config data to file
+					// Joshua //helper.write(data);										//write new config data to file
 					enroll_admin(1, function (e) {
 						if (e == null) {
 							setup_marbles_lib();

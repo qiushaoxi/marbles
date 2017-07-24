@@ -7,7 +7,7 @@ module.exports = function (config_filename, logger) {
 
 	// default config file name
 	if (!config_filename) {
-		config_filename = 'marbles1.json';
+		config_filename = 'marbles3.json';
 	}
 
 	var config_path = path.join(__dirname, '../config/' + config_filename);
@@ -383,7 +383,7 @@ module.exports = function (config_filename, logger) {
 
 
 
-	// check if user has changed the settings from the default ones
+	// check if user has changed the settings from the default ones 简直扯淡
 	helper.checkConfig = function () {
 		if (helper.getNetworkId() === 'FakeNetworkId') {
 			console.log('\n\n');

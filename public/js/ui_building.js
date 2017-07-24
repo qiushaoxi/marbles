@@ -200,23 +200,40 @@ function build_a_tx(data, pos) {
 	}
 
 	html += '<div class="txDetails">';
-	html +=		'<div class="txCount">TX ' + (Number(pos) + 1) + '</div>';
+	html +=		'<div class="txCount">' + data.txTime + '</div>';
 	html +=		'<p>';
-	html +=			'<div class="marbleLegend">Transaction: </div>';
+	html +=			'<div class="marbleLegend">交易流水: </div>';
 	html +=			'<div class="marbleName txId">' + data.txId.substring(0, 14) + '...</div>';
 	html +=		'</p>';
 	html +=		'<p>';
-	html +=			'<div class="marbleLegend">Owner: </div>';
+	html +=			'<div class="marbleLegend">所属人: </div>';
 	html +=			'<div class="marbleName">' + username + '</div>';
 	html +=		'</p>';
 	html +=		'<p>';
-	html +=			'<div class="marbleLegend">Company: </div>';
+	html +=			'<div class="marbleLegend">公司: </div>';
 	html +=			'<div class="marbleName">' + company  + '</div>';
 	html +=		'</p>';
 	html +=		'<p>';
-	html +=			'<div class="marbleLegend">Ower Id: </div>';
-	html +=			'<div class="marbleName">' + id  + '</div>';
+	html +=			'<div class="marbleLegend">标的: </div>';
+	html +=			'<div class="marbleName">' + data.value.target  + '</div>';
 	html +=		'</p>';
+	html +=		'<p>';
+	html +=			'<div class="marbleLegend">全额: </div>';
+	html +=			'<div class="marbleName">' + data.value.price  + '</div>';
+	html +=		'</p>';
+	html +=		'<p>';
+	html +=			'<div class="marbleLegend">期限: </div>';
+	html +=			'<div class="marbleName">' + data.value.term  + '</div>';
+	html +=		'</p>';
+	html +=		'<p>';
+	html +=			'<div class="marbleLegend">执行价: </div>';
+	html +=			'<div class="marbleName">' + data.value.execution  + '</div>';
+	html +=		'</p>';
+	html +=		'<p>';
+	html +=			'<div class="marbleLegend">权利金: </div>';
+	html +=			'<div class="marbleName">' + data.value.royalties  + '</div>';
+	html +=		'</p>';
+
 	html +=	'</div>';
 	return html;
 }

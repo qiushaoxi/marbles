@@ -1,6 +1,18 @@
 //-------------------------------------------------------------------
 // Query Chaincode - read chaincode state
 //-------------------------------------------------------------------
+var baseHelper = require('../../node-api/app/helper.js');
+
+function buildTarget(peer, org) {
+	var target = null;
+	if (typeof peer !== 'undefined') {
+		let targets = baseHelper.newPeers([baseHelper.getPeerAddressByName(org, peer)]);
+		if (targets && targets.length > 0) target = targets[0];
+	}
+
+	return target;
+}
+
 
 module.exports = function (logger) {
 	var utils = require('fabric-client/lib/utils.js');
@@ -19,33 +31,27 @@ module.exports = function (logger) {
 		}
 	*/
 	query_cc.query_chaincode = function (obj, options, cb) {
-		logger.debug('[fcw] Querying Chaincode: ' + options.cc_function + '()');
-		var chain = obj.chain;
-		var nonce = utils.getNonce();
-
-		// send proposal to peer
-		var request = {
-			chainId: options.channel_id,
-			chaincodeId: options.chaincode_id,
-			chaincodeVersion: options.chaincode_version,
-			fcn: options.cc_function,
-			args: options.cc_args,
-			txId: chain.buildTransactionID(nonce, obj.submitter),
-			nonce: nonce,
-		};
-		var debug = {												// this is just for console printing, no NONCE here
-			chainId: options.channel_id,
-			chaincodeId: options.chaincode_id,
-			chaincodeVersion: options.chaincode_version,
-			fcn: options.cc_function,
-			args: options.cc_args,
-			txId: chain.buildTransactionID(nonce, obj.submitter),
-		};
-		logger.debug('[fcw] Sending query req', debug);
-
-		chain.queryByChaincode(request
-			//nothing
-		).then(
+		var org='org1';
+		var username='Terry';
+		var peer = 'peer1';
+		var channel = baseHelper.getChannelForOrg(org);
+		var client = baseHelper.getClientForOrg(org);
+		var target = buildTarget(peer, org);
+		return baseHelper.getRegisteredUsers(username, org).then((user) => {
+			tx_id = client.newTransactionID();
+			// send query
+			var request = {
+				chaincodeId: 'marbles',
+				txId: tx_id,
+				fcn: options.cc_function,
+				args: options.cc_args
+			};
+			return channel.queryByChaincode(request, target);
+		}, (err) => {
+			logger.info('Failed to get submitter \''+username+'\'');
+			return 'Failed to get submitter \''+username+'\'. Error: ' + err.stack ? err.stack :
+				err;
+		}).then(
 			function (response_payloads) {
 				var formatted = format_query_resp(response_payloads);
 

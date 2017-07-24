@@ -7,6 +7,8 @@ module.exports = function (g_options, logger) {
 	var common = require(path.join(__dirname, './common.js'))(logger);
 	var EventHub = require('fabric-client/lib/EventHub.js');
 	var utils = require('fabric-client/lib/utils.js');
+	var baseHelper = require('../../node-api/app/helper.js');
+	var bashConfig = require('../../node-api/config.json');
 	var invoke_cc = {};
 
 	if (!g_options) g_options = {};
@@ -37,27 +39,33 @@ module.exports = function (g_options, logger) {
 		var chain = obj.chain;
 		var nonce = utils.getNonce();
 		var cbCalled = false;
+		var client = baseHelper.getClientForOrg("org1");
+		var tx_id = client.newTransactionID();
 
 		// send proposal to endorser
 		var request = {
-			chainId: options.channel_id,
-			chaincodeId: options.chaincode_id,
-			chaincodeVersion: options.chaincode_version,
+			chainId: "mychannel",//Joshua options.channel_id,
+			chaincodeId: "marbles",//Joshua options.chaincode_id,
+			chaincodeVersion: "v0",//Joshua options.chaincode_version,
 			fcn: options.cc_function,
 			args: options.cc_args,
-			txId: chain.buildTransactionID(nonce, obj.submitter),
+			txId: tx_id,
 			nonce: nonce,
 		};
 		logger.debug('[fcw] Sending invoke req', request);
 
+		
 		// Setup EventHub
-		if (options.event_url) {
-			logger.debug('[fcw] listening to event url', options.event_url);
-			eventhub = new EventHub();
-			eventhub.setPeerAddr(options.event_url, {
-				pem: options.peer_tls_opts.pem,
-				'ssl-target-name-override': options.peer_tls_opts.common_name		//can be null if cert matches hostname
-			});
+		debugger;
+		var event_url = "localhost:7051";
+		var event_urls = [event_url];
+
+
+		logger.info("event_urls:" + event_urls);
+		logger.info("event_urls:" + event_urls[0]);
+		if (event_urls) {
+			logger.debug('[fcw] listening to event url', event_urls[0]);
+			eventhub = baseHelper.newEventHubs(event_urls, 'org1')[0];
 			eventhub.connect();
 		} else {
 			logger.debug('[fcw] will not use tx event');

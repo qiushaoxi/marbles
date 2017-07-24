@@ -61,12 +61,18 @@ module.exports = function (g_options, fcw, logger) {
 		if (data.type === 'create') {
 			logger.info('[ws] create marbles req');
 			options.args = {
-				color: data.color,
-				size: data.size,
+				//color: data.color,
+				//size: data.size,
 				marble_owner: data.username,
 				owners_company: data.company,
 				owner_id: data.owner_id,
 				auth_company: process.env.marble_company,
+				//Joshua
+				target : "标的A",
+				price :"123.45",  //全额
+				term : "1500880053", //期限
+				execution : "100.00",//执行价
+				royalties : "23.45"//权利金
 			};
 
 			marbles_lib.create_a_marble(options, function (err, resp) {

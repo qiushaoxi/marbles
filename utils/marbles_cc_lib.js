@@ -19,6 +19,7 @@ module.exports = function (enrollObj, g_options, fcw, logger) {
 			cc_function: 'read',
 			cc_args: ['selftest']
 		};
+
 		fcw.query_chaincode(enrollObj, opts, function (err, resp) {
 			if (err != null) {
 				if (cb) return cb(err, resp);
@@ -46,6 +47,7 @@ module.exports = function (enrollObj, g_options, fcw, logger) {
 			cc_function: 'read',
 			cc_args: ['marbles_ui']
 		};
+		debugger;
 		fcw.query_chaincode(enrollObj, opts, function (err, resp) {
 			if (err != null) {
 				if (cb) return cb(err, resp);
@@ -77,12 +79,16 @@ module.exports = function (enrollObj, g_options, fcw, logger) {
 			endorsed_hook: options.endorsed_hook,
 			ordered_hook: options.ordered_hook,
 			cc_function: 'init_marble',
+			//Joshua
 			cc_args: [
 				'm' + leftPad(Date.now() + randStr(5), 19),
-				options.args.color,
-				options.args.size,
 				options.args.owner_id,
-				options.args.auth_company
+				options.args.auth_company,
+				options.args.target,//"标的A",
+				options.args.price,//"123.45",  //全额
+				options.args.term,//"unix time", //期限
+				options.args.execution,//"100.00",//执行价
+				options.args.royalties//"23.45"//权利金
 			],
 			peer_tls_opts: g_options.peer_tls_opts,
 		};

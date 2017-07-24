@@ -242,9 +242,10 @@ $(document).on('ready', function () {
 			$(that).addClass('auditingMarble');
 			$('#auditContentWrap').fadeIn();
 			$('#marbleId').html(marble_id);
-			var color = marbles[marble_id].color;
-			for (var i in bgcolors) $('.auditMarble').removeClass(bgcolors[i]);	//reset
-			$('.auditMarble').addClass(color.toLowerCase() + 'bg');
+			//Joshua
+			//var color = marbles[marble_id].color;
+			//for (var i in bgcolors) $('.auditMarble').removeClass(bgcolors[i]);	//reset
+			//$('.auditMarble').addClass(color.toLowerCase() + 'bg');
 
 			$('#rightEverything').addClass('rightEverythingOpened');
 			$('#leftEverything').fadeIn();
