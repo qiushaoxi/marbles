@@ -68,11 +68,11 @@ module.exports = function (g_options, fcw, logger) {
 				owner_id: data.owner_id,
 				auth_company: process.env.marble_company,
 				//Joshua
-				target : "标的A",
-				price :"123.45",  //全额
-				term : "1500880053", //期限
-				execution : "100.00",//执行价
-				royalties : "23.45"//权利金
+				target : data.target,//"标的A",
+				price : data.price,  //全额
+				term : data.term, //期限
+				execution : data.execution,//执行价
+				royalties : data.royalties//权利金
 			};
 
 			marbles_lib.create_a_marble(options, function (err, resp) {

@@ -25,7 +25,6 @@ $left_width: 175px;
 }
 
 .txHistoryWrap{
-	display: inline-block;
 	vertical-align: bottom;
 	margin-top: 35px;
 } 
@@ -34,6 +33,7 @@ $left_width: 175px;
 	display: inline-block;
 	vertical-align: top;
 	text-align: center;
+	margin-top: 60px;
 }
 
 .biggerLeft{
@@ -51,22 +51,35 @@ $left_width: 175px;
 	margin-bottom: 10px;
 }
 .marbleLegend{
-	width: 85px;
+	width: 80px;
 	display: inline-block;
-	font-weight: 700;
+	line-height:24px;
 }
 .marbleName{
 	display: inline-block;
 	margin-left: 10px;
+	line-height:18px;
+	position:relative;
+	&:after{
+		content: "";
+		display: block;
+		width: 16px;
+		height: 24px;
+		background: $main_bg;
+		transform: skew(30deg);
+		position:absolute;
+		top: 0;
+		right:-9px;
+	}
 }
 .txId, .marbleName{
 	background: $main_bg;
-	font-size: 12px;
+	font-size: 13px;
 	font-family: monospace;
 	padding: 3px 10px;
 }
 .txCount{
-	text-align: center;
+	// text-align: center;
 	margin-bottom: 10px;
 }
 
@@ -118,18 +131,19 @@ $left_width: 175px;
 
 #auditButton{
 	position: fixed;
-	left: -22px;
-	background: $acc_color2;
+	left: -30px;
+	background: $hi_color2;
 	color: $main_color;
-	transform: rotate(90deg);
-	padding: 5px 20px;
-	top:50%;
-	border-top-left-radius: 5px;
-	border-top-right-radius: 5px;
+	transform: rotate(-90deg);
+	padding: 2px 30px;
+	top:45%;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
 	width: 30px;
 	text-align: center;
 	cursor: pointer;
 	transition: all .25s linear;
+	font-size: 18px;
 }
 #auditButton:hover{
 	color: $acc_color1-5;

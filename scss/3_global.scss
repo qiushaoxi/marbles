@@ -26,20 +26,24 @@ $auditSize: 333px;
 	height:60px;
 	line-height: 60px;
 	width:100%;
-	background: $acc_color3;
+	background: $main_color;
 	font-size: 15px;
 	color: $acc_color1-5;
 }
 
 #mainPanel{
 	color: $main_color;
-	min-height: 750px;
+	min-height: 830px;
+	overflow: hidden;
+	background:-webkit-linear-gradient(top,$linear_color1,$linear_color2);
+	background:linear-gradient(to bottom,$linear_color1,$linear_color2);
 }
 
 #contentPanel {
-	min-height:500px;
-	position: relative;
+	min-height:649px;
+	overflow: hidden;
 	margin:35px 50px auto;
+	background:url(../imgs/welcome.png) no-repeat center;
 }
 
 #footerPanel{
@@ -51,8 +55,6 @@ $auditSize: 333px;
 	height: 40px;
 	padding-bottom: 20px;
 }
-
-
 
 #logo{
 	display:inline-block;
@@ -147,6 +149,16 @@ $auditSize: 333px;
 
 
 // --------- Home ---------
+
+#title{
+	position:absolute;
+	left:50%;
+	top:0;
+	transform:translateX(-50%);
+	h1{
+		font-size: 18px
+	}
+}
 .marblesWrap{
 	display: inline-block;
 	min-width: 235px;
@@ -212,7 +224,7 @@ $auditSize: 333px;
 	border:2px transparent solid;
 	padding:0;
 	vertical-align: bottom;
-	border-radius: 1000px;
+	border-radius: 4px;
 }
 .ball:hover{
 	cursor: pointer;
@@ -289,7 +301,7 @@ $auditSize: 333px;
 	margin-left: 10px;
 	font-size: 20px;
 	vertical-align: bottom;
-	border: 1px dashed $acc_color2;
+	border: 1px dashed $hi_color2;
 	border-radius: 100%;
 	text-align: center;
 }
@@ -302,18 +314,45 @@ $auditSize: 333px;
 	margin: 5px 0 5px 8px;
 }
 .addMarble, .largeMarble{
-	height: 75px;
-	width: 75px;
-	line-height: 75px;
+	height: 70px;
+	width: 70px;
+	line-height: 70px;
+}
+.largeMarble,.smallMarble,.createball{
+	i{
+		display: block;
+		width: 60%;  
+        height: 22px;  
+        border-top: 2px solid rgba(255,255,255,0.2);  
+        border-bottom: 2px solid rgba(255,255,255,0.2);  
+        background-color: rgba(255,255,255,0.2);
+        padding: 8px 0;  
+        background-clip:content-box;
+        box-sizing:border-box;
+        margin:auto;
+	}
+}
+.createball i{
+	margin-top:30%;
+	border-top: 5px solid rgba(255,255,255,0.2);  
+    border-bottom: 5px solid rgba(255,255,255,0.2);
+    padding: 20px 0;
+    height: 55px;
+}
+.largeMarble i{
+    margin-top:25%;
+}
+.smallMarble i{
+    margin-top:20%;
 }
 .createball{
 	display: inline-block;
 	font-size:275px;
 	color: transparent;
 	border: 2px dashed $main_color;
-	border-radius: 200px;
-	width: 250px;
-	height: 250px;
+	border-radius: 10px;
+	width: 150px;
+	height: 150px;
 	vertical-align: middle;
 }
 #createform{
@@ -357,7 +396,7 @@ $auditSize: 333px;
 .hint{
 	font-size:12px;
 	font-weight:bold;
-	color:$acc_color2;
+	color:$hr_color;
 }
 #footerWrap{
 	height: 235px;
@@ -377,20 +416,20 @@ $auditSize: 333px;
 .white{color:#FFFEF3;}
 .black{color:#1C2026;}
 .red{color:#F15847;}
-.green{color:#68B369;}
-.blue{color:#3D76BA;}
+.green{color:#5b9a5b;}
+.blue{color:#3566a1;}
 .purple{color:#634FA1;}
-.pink{color:#CC5AA2;}
+.pink{color:#9a437a;}
 .orange{color:#ED8F30;}
 .yellow{color:#DAC94E;}
 
 .whitebg{background:#FFFEF3;}
 .blackbg{background:#1C2026}
 .redbg{background:#F15847}
-.greenbg{background:#68B369}
-.bluebg{background:#3D76BA}
+.greenbg{background:#5b9a5b}
+.bluebg{background:#3566a1}
 .purplebg{background:#634FA1}
-.pinkbg{background:#CC5AA2}
+.pinkbg{background:#9a437a}
 .orangebg{background:#ED8F30}
 .yellowbg{background:#DAC94E}
 
@@ -433,12 +472,46 @@ $auditSize: 333px;
 }
 
 #loginPanel{
-	width: 400px;
-	margin: auto;
-	border: 1px $acc_color2 solid;
-	border-radius: 5px;
+	width: 664px;
+	margin:200px auto 0;
 	padding: 20px;
 	text-align: center;
+	p{
+		font-size: 36px;
+		letter-spacing: 2px;
+	}
+	hr{
+		background:$hr_color;
+		width: 200px;
+		margin-top: 20px;
+	}
+}
+.login-box{
+	margin-top: 90px;
+	height: 48px;
+	background: url(../imgs/input_bg.png) no-repeat;
+	input{
+		width: 484px;
+		height: 48px;
+		border:none;
+		background:none;
+		font-size: 18px;
+		margin:0;
+		padding: 0;
+		float: left;
+		text-indent: 2em;
+	}
+	button{
+		background: none;
+		width: 180px;
+		height: 48px;
+		margin:0;
+		border:none;
+		padding: 0;
+		font-size: 24px;
+		float: left;
+		text-indent: 1em;
+	}
 }
 
 #triangle{
@@ -498,10 +571,10 @@ $auditSize: 333px;
 
 $marble_top: 15px;
 $marble_left: 0;
-#proposeMarbleStable, #proposeMarble, #endorseMarbleStable, #endorseMarble, #marbleBorderTop, #marbleBorderBottom, #marbleBorderLeft, #marbleBorderRight, .ordererMarbles{
-	border: 3px solid #3D76BA;
-	height: 40px;
-	width: 40px;
+#proposeMarbleStable, #proposeMarble, #endorseMarbleStable, #endorseMarble, .ordererMarbles{
+	border: 2px solid $hi_color2;
+	height: 66px;
+	width: 66px;
 	position: relative;
 	position: absolute;
 	top: $marble_top;
@@ -509,9 +582,26 @@ $marble_left: 0;
 	background: transparent;
 	margin:0;
 	padding: 0;
-	color: #3D76BA;
-	line-height: 40px;
-	font-size: 16px;
+	color: $hi_color2;
+	line-height: 64px;
+	font-size: 20px;
+}
+#marbleBorderTop, #marbleBorderBottom, #marbleBorderLeft, #marbleBorderRight{
+	border: 2px solid $hi_color2;
+	height: 36px;
+	width: 36px;
+	position: relative;
+	position: absolute;
+	top: $marble_top;
+	left: $marble_left;
+	background: transparent;
+	margin:0;
+	padding: 0;
+	color: $hi_color2;
+	line-height: 64px;
+	font-size: 20px;
+	margin-left:15px;
+	margin-top:15px;
 }
 #marbleBorderTop, #proposeMarble, #endorseMarbleStable, #endorseMarble, #marbleBorderBottom, #marbleBorderLeft, #marbleBorderRight{
 	display: none;
@@ -525,45 +615,49 @@ $marble_left: 0;
 }
 
 .marbleWrap{
-	height: 40px;
-	width: 40px;
-	position: absolute;
+	height: 70px;
+	width: 70px;
+	position: relative;
 	display: inline-block;
 	text-align: center;
-	margin-left: -26px;
-	margin-top:30px;
+	// margin-left: -37px;
+	margin-top:5px;
 }
 
 #marbleBorderTop{
 	color: transparent;
-	border-left-color: transparent;
+	// border-left-color: transparent;
 	border-bottom-color: transparent;
 	border-right-color: transparent;
 	top: $marble_top - 50px;
+	left: $marble_left - 50px;
 }
 
 #marbleBorderBottom{
 	color: transparent;
 	border-left-color: transparent;
 	border-top-color: transparent;
-	border-right-color: transparent;
+	// border-right-color: transparent;
 	top: $marble_top + 50px;
+	left: $marble_left + 50px;
 }
 
 #marbleBorderLeft{
 	color: transparent;
-	border-bottom-color: transparent;
+	// border-bottom-color: transparent;
 	border-top-color: transparent;
 	border-right-color: transparent;
 	left: $marble_left - 50px;
+	top: $marble_top + 50px;
 }
 
 #marbleBorderRight{
 	color: transparent;
 	border-left-color: transparent;
-	border-top-color: transparent;
+	// border-top-color: transparent;
 	border-bottom-color: transparent;
 	left:$marble_left + 50px;
+	top: $marble_top - 50px;
 }
 
 
@@ -572,16 +666,19 @@ $marble_left: 0;
 }
 #orderBoxStable, #orderBox, #commitBoxStable{
 	display: none;
-	height: 135px;
-	line-height: 140px;
-	width: 152px;
+	height: 108px;
+	line-height: 108px;
+	width: 248px;
 	background: transparent;
-	border: 2px #fff solid;
+	border: 1px #fff solid;
 	border-radius: 6px;
 	font-size: 35px;
 	text-align: center;
 	margin: auto;
 	position: relative;
+}
+#commitBoxStable{
+	width: 108px;
 }
 #orderBox{
 	position: absolute;
@@ -604,18 +701,18 @@ $marble_left: 0;
 }
 .ordererMarbles {
 	background: #fff;
-	margin-right:2%;
+	margin:0 1%;
 	position: relative;
 	display: inline-block;
 }
 .ordererMarbles:first-of-type {
-	background: #ff8100;
+	background: #5b9a5b;
 }
 .ordererMarbles:last-of-type{
-	background: #ec0000;
+	background: #3566a1;
 }
 #orderBox, #commitBoxStable{
-	background: #018fe0;
+	background: $hi_color2;
 	border-color: transparent;
 }
 
@@ -631,7 +728,7 @@ $marble_left: 0;
 	padding: 30px;
 	width: 90%;
 	left: 1%;
-	min-width: 720px;
+	min-width: 1140px;
 }
 #startUpPanel, #settingsPanel{
 	position: absolute;
@@ -657,11 +754,24 @@ $marble_left: 0;
 }
 .stepCircleStatus, .txStatus{
 	margin-top: 35px;
-	height: 20px;
-	width: 20px;
 	display: inline-block;
-	background: $main_color;
 	border-radius: 100px;
+	background: none;
+	border:dashed 1.5px transparent;
+	width: 24px;
+	height: 24px;
+	position:relative;
+	&:after{
+		content: "";
+		display: block;
+		position:absolute;
+		left:4px;
+		top:4px;
+		width: 16px;
+		height: 16px;
+		background: $hi_color2;
+		border-radius:50%;
+	}
 }
 .stepDescription{
 	font-size: 13px;
@@ -683,7 +793,7 @@ $marble_left: 0;
 	display: none;
 }
 .stepComplete .stepCircleStatus, .stepComplete .txStatus{
-	background: #6CC284;
+	border:dashed 1.5px $hi_color2;
 }
 .stepFailed .stepCircleStatus, .stepFailed .txStatus{
 	background: #ed8f30;
@@ -691,7 +801,7 @@ $marble_left: 0;
 .stepHelpWrap{
 	display: none;
 	text-align: center;
-	border-top: 2px #ccc solid;
+	border-top: 2px #6c7178 solid;
 	margin-top: 15px;
 	padding-top: 15px;
 }
@@ -726,28 +836,25 @@ $marble_left: 0;
 // ----------- tx story ---------------
 .txStepWrap{
 	display: inline-block;
-	width: 20%;
+	width: 22%;
 	text-align: center;
 	vertical-align: top;
-	margin: 0 2.5%;
+	margin:0 1.5%
 }
 .txLegend{
-	font-size: 20px;
-	font-weight: 700;
+	font-size: 24px;
 }
 .txStoryWrap{
-	height: 150px;
-	margin: 10px 0;
+	height: 110px;
+	margin: 30px 0;
 	position: relative;
 }
 .txDescription{
-	font-size: 13.5px;
+	font-size: 14px;
 	line-height: 20px;
 	text-align: center;
 }
 .txStatus{
-	height: 15px;
-	width: 15px;
 	margin-top: 0;
 	margin-bottom: 20px;
 }
@@ -785,34 +892,34 @@ $marble_left: 0;
 
 
 // ----------- IE 10 +
-@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-	#notificationHandle{
-		width: 100%;
-		margin: 0;
-	}
-	#noticeScrollWrap{
-		height: 64px
-	}
-	#notificationsWrap{
-		padding: 0;
-	}
+// @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+// 	#notificationHandle{
+// 		width: 100%;
+// 		margin: 0;
+// 	}
+// 	#noticeScrollWrap{
+// 		height: 64px
+// 	}
+// 	#notificationsWrap{
+// 		padding: 0;
+// 	}
 
-	#txStep1 .txStoryWrap, #txStep2 .txStoryWrap{
-		width: 40px;
-		margin: auto;
-	}
-	.marbleWrap{
-		margin-left: 0;
-	}
+// 	#txStep1 .txStoryWrap, #txStep2 .txStoryWrap{
+// 		width: 40px;
+// 		margin: auto;
+// 	}
+// 	.marbleWrap{
+// 		margin-left: 0;
+// 	}
 
-	#orderBoxStable, #orderBox, #commitBoxStable{
-		height: 122px;
-		line-height: 122px;
-	}
-	#orderBoxStable{
-		line-height: 66px;
-	}
-}
+// 	#orderBoxStable, #orderBox, #commitBoxStable{
+// 		height: 122px;
+// 		line-height: 122px;
+// 	}
+// 	#orderBoxStable{
+// 		line-height: 66px;
+// 	}
+// }
 
 // --------- Login/Logout ---------
 #whoAmI{
@@ -827,14 +934,12 @@ $marble_left: 0;
 	padding: 0 15px;
 }
 #userIcon{
-	background:$acc_color2;
-	padding:8px;
-	border-radius:20px;
-	width:20px;
-	text-align: center;
-	color: $acc_color3;
-	margin-right:10px;
-	font-size:20px;
+	vertical-align:middle;
+	margin-right: 15px;
+	margin-top: -10px;
+}
+#userField{
+	font-size: 18px;
 }
 #userSelect{
 	display:none;

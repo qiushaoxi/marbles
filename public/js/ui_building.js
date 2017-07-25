@@ -31,7 +31,7 @@ function build_marble(marble) {
 	if(auditingMarble && marble.id ===  auditingMarble.id) auditing = 'auditingMarble';
 
 	html += '<span id="' + marble.id + '" class="ball ' + size + ' ' + colorClass + ' ' + auditing + ' title="' + marble.id + '"';
-	html += ' username="' + marble.owner.username + '" company="' + marble.owner.company + '" owner_id="' + marble.owner.id + '"></span>';
+	html += ' username="' + marble.owner.username + '" company="' + marble.owner.company + '" owner_id="' + marble.owner.id + '"><i></i></span>';
 
 	$('.marblesWrap[owner_id="' + marble.owner.id + '"]').find('.innerMarbleWrap').prepend(html);
 	$('.marblesWrap[owner_id="' + marble.owner.id + '"]').find('.noMarblesMsg').hide();
@@ -193,6 +193,14 @@ function build_a_tx(data, pos) {
 	var username = '-';
 	var company = '-';
 	var id = '-';
+	var time = '';
+	var deadline = '';
+	if(data.txTime){
+		time = new Date(parseInt(data.txTime)*1000).Format("yyyy/MM/dd HH:mm:ss");
+	}
+	if(data.value && data.value.term){
+		deadline = new Date(parseInt(data.value.term)*1000).Format("yyyy/MM/dd HH:mm:ss");
+	}
 	if(data &&  data.value && data.value.owner && data.value.owner.username) {
 		username = data.value.owner.username;
 		company = data.value.owner.company;
@@ -200,7 +208,7 @@ function build_a_tx(data, pos) {
 	}
 
 	html += '<div class="txDetails">';
-	html +=		'<div class="txCount">' + data.txTime + '</div>';
+	html +=		'<div class="txCount">' + time + '</div>';
 	html +=		'<p>';
 	html +=			'<div class="marbleLegend">交易流水: </div>';
 	html +=			'<div class="marbleName txId">' + data.txId.substring(0, 14) + '...</div>';
@@ -223,7 +231,7 @@ function build_a_tx(data, pos) {
 	html +=		'</p>';
 	html +=		'<p>';
 	html +=			'<div class="marbleLegend">期限: </div>';
-	html +=			'<div class="marbleName">' + data.value.term  + '</div>';
+	html +=			'<div class="marbleName">' + deadline  + '</div>';
 	html +=		'</p>';
 	html +=		'<p>';
 	html +=			'<div class="marbleLegend">执行价: </div>';
@@ -236,4 +244,19 @@ function build_a_tx(data, pos) {
 
 	html +=	'</div>';
 	return html;
+}
+Date.prototype.Format = function (fmt) {  
+    var o = {
+        "M+": this.getMonth() + 1,
+        "d+": this.getDate(), 
+        "H+": this.getHours(), 
+        "m+": this.getMinutes(),
+        "s+": this.getSeconds(),
+        "q+": Math.floor((this.getMonth() + 3) / 3),
+        "S": this.getMilliseconds()
+    };
+    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    for (var k in o)
+    if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+    return fmt;
 }

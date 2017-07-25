@@ -28,15 +28,39 @@ $(document).on('ready', function () {
 	// =================================================================================
 	$('#createMarbleButton').click(function () {
 		console.log('creating marble');
+		var target = $('input[name="target"]').val();
+		var term = $('input[name="term"]').val();
+		var price = $('input[name="price"]').val();
+		var execution = $('input[name="execution"]').val();
+		var royalties = $('input[name="royalties"]').val();
+		if(target.trim()==""){
+			alert("标的未填写");
+			return false;
+		}
+		if(term) {
+			term = ((new Date(term).getTime())/1000).toString();
+		}
+		else{
+			alert("期限未选择")
+			return false;
+		}
+		if(!price || parseFloat(price) != parseFloat(execution) + parseFloat(royalties)){
+			alert("全额应等于执行价与权利金之和")
+			return false;
+		}
 		var obj = {
 			type: 'create',
-			color: $('.colorSelected').attr('color'),
-			size: $('select[name="size"]').val(),
-			username: $('select[name="user"]').val(),
+			target: target,
+			price: price, //全额
+			term: term, //期限
+			execution: execution, //执行价
+			royalties: royalties, //权利金
+			username: $('input[name="user"]').val(),
 			company: $('input[name="company"]').val(),
 			owner_id: $('input[name="owner_id"]').val(),
 			v: 1
 		};
+
 		console.log('creating marble, sending', obj);
 		$('#createPanel').fadeOut();
 		$('#tint').fadeOut();
@@ -160,7 +184,7 @@ $(document).on('ready', function () {
 		var company = $(this).parents('.innerMarbleWrap').parents('.marblesWrap').attr('company');
 		var username = $(this).parents('.innerMarbleWrap').parents('.marblesWrap').attr('username');
 		var owner_id = $(this).parents('.innerMarbleWrap').parents('.marblesWrap').attr('owner_id');
-		$('select[name="user"]').html('<option value="' + username + '">' + toTitleCase(username) + '</option>');
+		$('input[name="user"]').val(username);
 		$('input[name="company"]').val(company);
 		$('input[name="owner_id"]').val(owner_id);
 	});

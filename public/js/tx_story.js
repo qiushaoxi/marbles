@@ -148,15 +148,15 @@ function reset(){
 
 //1. animate borders to join marble in center
 function story1_animation(cb){
-	var dist = 50;
+	var dist = 35;
 	$('#marbleBorderTop, #marbleBorderBottom, #marbleBorderLeft, #marbleBorderRight').show();
-	$('#marbleBorderTop').animate({top: '+=' + dist}, {
+	$('#marbleBorderTop').animate({top: '+=' + dist,left: '+=' + dist}, {
 		duration: 1800,
 		complete: cb
 	});
-	$('#marbleBorderBottom').animate({top: '-=' + dist}, {duration: 1300});
-	$('#marbleBorderLeft').animate({left: '+=' + dist}, {duration: 800});
-	$('#marbleBorderRight').animate({left: '-=' + dist}, {duration: 800});
+	$('#marbleBorderBottom').animate({top: '-=' + dist,left: '-=' + dist}, {duration: 1300});
+	$('#marbleBorderLeft').animate({left: '+=' + dist,top: '-=' + dist}, {duration: 800});
+	$('#marbleBorderRight').animate({left: '-=' + dist,top: '+=' + dist}, {duration: 800});
 }
 
 //1. show marble that will roll
@@ -218,9 +218,11 @@ function story4_animation(cb){
 	var diff = dist4.left - dist3.left;
 
 	$('#orderBox').fadeIn(1000);
+	var endWidth = $('#orderBox').height();
+	diff +=  ($('#orderBox').width() - endWidth)/2;
 	setTimeout(function(){
 		setTimeout(function(){
-			$('#orderBox').animate({left: '+=' + diff}, {
+			$('#orderBox').animate({left: '+=' + diff , width:endWidth}, {
 				duration: 2000,
 				complete: function(){
 					$('#commitBoxStable').show();
