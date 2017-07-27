@@ -4,24 +4,26 @@
   "description": "A demonstration Node.js web application on Hyperledger Fabric.",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "node marbles.js"
   },
   "dependencies": {
     "async": "0.9.*",
-    "compression": "1.6.*",
     "body-parser": "1.13.2",
+    "compression": "1.6.*",
     "cookie-parser": "1.4.*",
     "cors": "2.8.*",
     "express": "4.14.*",
     "express-session": "1.14.*",
-    "fabric-ca-client": ">=1.0.0 <1.0.0.10",
-    "fabric-client": ">=1.0.0 <1.0.0.10",
+    "fabric-ca-client": "1.0.0",
+    "fabric-client": "1.0.0",
+    "grpc": "https://registry.npmjs.org/grpc/-/grpc-1.2.4.tgz",
+    "hashtable": "https://registry.npmjs.org/hashtable/-/hashtable-2.0.2.tgz",
+    "log4js": "^0.6.38",
     "pug": "2.0.0-beta11",
     "serve-static": "1.11.*",
     "stream-buffers": "^3.0.1",
     "winston": "2.2.*",
-    "ws": "1.1.*",
-    "log4js": "^0.6.38"
+    "ws": "1.1.*"
   },
   "engines": {
     "node": "^6.2.0"
