@@ -12,6 +12,7 @@ var session = require('express-session');
 var compression = require('compression');
 var serve_static = require('serve-static');
 var path = require('path');
+var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var http = require('http');
 var app = express();
@@ -60,7 +61,8 @@ app.use(serve_static(path.join(__dirname, 'public')));
 app.use(session({ secret: 'lostmymarbles', resave: true, saveUninitialized: true }));
 app.options('*', cors());
 app.use(cors());
-
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 //---------------------
 // Cache Busting Hash
 //---------------------

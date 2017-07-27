@@ -8,7 +8,7 @@ $auditSize: 333px;
 }
 
 .rightEverythingOpened{
-	width: calc(100% - $auditSize);
+	width: calc(100% - 333px);
 	left: $auditSize;
 	position: absolute;
 }
@@ -176,6 +176,18 @@ $auditSize: 333px;
 .innerMarbleWrap{
 	min-height:100px;
 	padding-right: 10px;
+	margin-top: 10px;
+}
+#myPanel{
+	margin-top: 30px;
+	.ownerWrap{
+		border:dashed 1px #fff;
+	}
+	.marblesWrap{
+		background:none;
+		width: 100%;
+		margin-bottom: 0;
+	}
 }
 .legend{
 	display:absolute;
@@ -199,7 +211,7 @@ $auditSize: 333px;
 	float: right;
 }
 .ownerWrap{
-	padding: 20px;
+	padding: 10px;
 }
 .companyNameWrap{
 	border-bottom: 1px $acc_color1-5 solid;
@@ -225,6 +237,7 @@ $auditSize: 333px;
 	padding:0;
 	vertical-align: bottom;
 	border-radius: 4px;
+	background:$ballbg;
 }
 .ball:hover{
 	cursor: pointer;
@@ -304,13 +317,16 @@ $auditSize: 333px;
 	border: 1px dashed $hi_color2;
 	border-radius: 100%;
 	text-align: center;
+	float:right;
+	margin-right: 30px;
+	margin:5px 30px 5px 8px;
 }
 .addMarble:hover{
 	cursor: pointer;
 	border-color: $main_color;
 	transition: all .25s linear;
 }
-.addMarble, .ball{
+.ball{
 	margin: 5px 0 5px 8px;
 }
 .addMarble, .largeMarble{
@@ -353,13 +369,18 @@ $auditSize: 333px;
 	border-radius: 10px;
 	width: 150px;
 	height: 150px;
-	vertical-align: middle;
+	vertical-align: top;
+	background:$ballbg;
+	margin-top: 5px;
 }
 #createform{
 	display: inline-block;
-	margin-top: 40px;
 	margin-left: 15px;
 	vertical-align: middle;
+	input[type=text]{
+		background:#fff;
+		color: #333;
+	}
 }
 .createLegend{
 	width:45px;

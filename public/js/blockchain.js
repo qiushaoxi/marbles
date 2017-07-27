@@ -48,10 +48,9 @@ function build_block(id) {										//build and append the block html
 	} else {
 		id = nDig(id, 3);
 	}
-
 	var html = `<div class="block ` + sizeClass + `">
 					<div class="tooltip">
-						<span class="tooltiptext">Block ` + Number(id) + ` has been committed to the ledger</span>
+						<span class="tooltiptext"> ` + Number(id) + ` 号区块已经在本地账本中生效</span>
 						` + id + `
 					</div>
 				</div>`;

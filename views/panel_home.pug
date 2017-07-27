@@ -1,15 +1,12 @@
 #homePanel.panel
 	div
 		#tips
-			span Tips: Simply 
-			strong drag 
-			span and 
-			strong drop 
-			span a marble from one user to another
+			span 提示：通过将合约拖入“我的合约”窗口进行购买合约;通过 + 按钮新建合约
+
 
 		#ownerWrap
 			div#toolbarWrap
-				.bottomAlign
+				//.bottomAlign
 					input(type="text" placeholder="Search" style="margin-left: 0; border-radius:2px;")#searchUsers.longer
 					span.hint(style="margin-left: 10px; font-size: 16px;") 
 						span#foundUsers 0
@@ -24,14 +21,19 @@
 
 				button(disabled="disabled")#showSettingsPanel
 					span.fa.fa-gear
-					span &nbsp; Settings
+					span &nbsp; 设置
 				
 				#trashbin.sortable.innerMarbleWrap
 					div.fa.fa-trash-o.fa-3x(style="vertical-align: middle;")
 					span &nbsp;
-					div#trashText Drag and drop marble to remove
+					div#trashText 将我的合约拖入此处删除合约
 			
 
 
 		#allUserPanelsWrap
 			#appStartingText 连接中...
+		#myPanel
+script(type='text/javascript').
+	var showStartupPanel = !{JSON.stringify(showStartupPanel)};
+	document.getElementById("showStartupPanel").style.display = showStartupPanel;
+

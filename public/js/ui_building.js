@@ -4,33 +4,33 @@
 /* exported build_a_tx, marbles */
 
 var marbles = {};
-
+var USERNAME = "";
 // =================================================================================
 //	UI Building
 // =================================================================================
 //build a marble
 function build_marble(marble) {
 	var html = '';
-	var colorClass = '';
+	// var colorClass = '';
 	var size = 'largeMarble';
 	var auditing = '';
 
 	marbles[marble.id] = marble;
 
 	marble.id = escapeHtml(marble.id);
-	marble.color = escapeHtml(marble.color);
+	// marble.color = escapeHtml(marble.color);
 	marble.owner.id = escapeHtml(marble.owner.id);
 	marble.owner.username = escapeHtml(marble.owner.username);
 	marble.owner.company = escapeHtml(marble.owner.company);
 	var full_owner = escapeHtml(marble.owner.username.toLowerCase() + '.' + marble.owner.company);
 
-	console.log('[ui] building marble: ', marble.color, full_owner, marble.id.substring(0, 4) + '...');
-	if (marble.size == 16) size = 'smallMarble';
-	if (marble.color) colorClass = marble.color.toLowerCase() + 'bg';
+	console.log('[ui] building marble: ', full_owner, marble.id.substring(0, 4) + '...');
+	// if (marble.size == 16) size = 'smallMarble';
+	// if (marble.color) colorClass = marble.color.toLowerCase() + 'bg';
 
 	if(auditingMarble && marble.id ===  auditingMarble.id) auditing = 'auditingMarble';
 
-	html += '<span id="' + marble.id + '" class="ball ' + size + ' ' + colorClass + ' ' + auditing + ' title="' + marble.id + '"';
+	html += '<span id="' + marble.id + '" class="ball ' + size + ' ' + auditing + '" title="' + marble.id + '"';
 	html += ' username="' + marble.owner.username + '" company="' + marble.owner.company + '" owner_id="' + marble.owner.id + '"><i></i></span>';
 
 	$('.marblesWrap[owner_id="' + marble.owner.id + '"]').find('.innerMarbleWrap').prepend(html);
@@ -43,7 +43,6 @@ function populate_users_marbles(msg) {
 
 	//reset
 	console.log('[ui] clearing marbles for user ' + msg.owner_id);
-	$('.marblesWrap[owner_id="' + msg.owner_id + '"]').find('.innerMarbleWrap').html('<i class="fa fa-plus addMarble"></i>');
 	$('.marblesWrap[owner_id="' + msg.owner_id + '"]').find('.noMarblesMsg').show();
 
 	for (var i in msg.marbles) {
@@ -63,7 +62,7 @@ function size_user_name(name) {
 
 //build all user panels
 function build_user_panels(data) {
-
+	USERNAME = USERNAME || $("#userField").text().toLowerCase();
 	//reset
 	console.log('[ui] clearing all user panels');
 	$('.ownerWrap').html('');
@@ -71,8 +70,11 @@ function build_user_panels(data) {
 		known_companies[x].count = 0;
 		known_companies[x].visible = 0;							//reset visible counts
 	}
-
 	for (var i in data) {
+		if(data[i].username == USERNAME){
+			build_my_panels(data[i]);
+			continue;
+		}
 		var html = '';
 		var colorClass = '';
 		data[i].id = escapeHtml(data[i].id);
@@ -90,8 +92,13 @@ function build_user_panels(data) {
 		html += toTitleCase(data[i].username);
 		html += '<span class="fa fa-thumb-tack marblesCloseSectionPos marblesFix" title="Never Hide Owner"></span>';
 		html += '</div>';
-		html += '<div class="innerMarbleWrap"><i class="fa fa-plus addMarble"></i></div>';
-		html += '<div class="noMarblesMsg hint">No marbles</div>';
+		if(USERNAME=="admin"){
+			html += '<div class="innerMarbleWrap"><i class="fa fa-plus addMarble"></i></div>';
+		}
+		else{
+			html += '<div class="innerMarbleWrap"></div>';
+		}
+		html += '<div class="noMarblesMsg hint">没有合约</div>';
 		html += '</div>';
 
 		$('.companyPanel[company="' + data[i].company + '"]').find('.ownerWrap').append(html);
@@ -100,37 +107,47 @@ function build_user_panels(data) {
 	}
 
 	//drag and drop marble
-	$('.innerMarbleWrap').sortable({ connectWith: '.innerMarbleWrap', items: 'span' }).disableSelection();
+	var s = ".innerMarbleWrap";
+	if(USERNAME != "admin"){
+		s = '#myPanel .innerMarbleWrap';
+	}
+	$('.innerMarbleWrap').sortable({ connectWith: s, items: 'span' }).disableSelection();
 	$('.innerMarbleWrap').droppable({
 		drop:
 		function (event, ui) {
 			var marble_id = $(ui.draggable).attr('id');
-
+			var username = "";
 			//  ------------ Delete Marble ------------ //
 			if ($(event.target).attr('id') === 'trashbin') {
-				console.log('removing marble', marble_id);
-				show_tx_step({ state: 'building_proposal' }, function () {
-					var obj = {
-						type: 'delete_marble',
-						id: marble_id,
-						v: 1
-					};
-					ws.send(JSON.stringify(obj));
-					$(ui.draggable).addClass('invalid bounce');
-					refreshHomePanel();
-				});
+				username = $(ui.draggable).parents('.marblesWrap').attr('username');
+				if(USERNAME == "admin" || USERNAME == username){
+					console.log('removing marble', marble_id);
+					show_tx_step({ state: 'building_proposal' }, function () {
+						var obj = {
+							type: 'delete_marble',
+							id: marble_id,
+							v: 1
+						};
+						ws.send(JSON.stringify(obj));
+						$(ui.draggable).addClass('invalid bounce');
+						refreshHomePanel();
+					});
+				}
 			}
 
 			//  ------------ Transfer Marble ------------ //
 			else {
-				var dragged_owner_id = $(ui.draggable).attr('owner_id');
-				var dropped_owner_id = $(event.target).parents('.marblesWrap').attr('owner_id');
+				username = $(event.target).parents('.marblesWrap').attr('username');
+				if(USERNAME == "admin" || USERNAME == username){
+					var dragged_owner_id = $(ui.draggable).attr('owner_id');
+					var dropped_owner_id = $(event.target).parents('.marblesWrap').attr('owner_id');
 
-				console.log('dropped a marble', dragged_owner_id, dropped_owner_id);
-				if (dragged_owner_id != dropped_owner_id) {										//only transfer marbles that changed owners
-					$(ui.draggable).addClass('invalid bounce');
-					transfer_marble(marble_id, dropped_owner_id);
-					return true;
+					console.log('dropped a marble', dragged_owner_id, dropped_owner_id);
+					if (dragged_owner_id != dropped_owner_id) {										//only transfer marbles that changed owners
+						$(ui.draggable).addClass('invalid bounce');
+						transfer_marble(marble_id, dropped_owner_id);
+						return true;
+					}
 				}
 			}
 		}
@@ -139,6 +156,29 @@ function build_user_panels(data) {
 	//user count
 	$('#foundUsers').html(data.length);
 	$('#totalUsers').html(data.length);
+}
+
+function build_my_panels(data){
+	var html = '';
+	if($("#myPanel .ownerWrap").html()!=""){
+		data.id = escapeHtml(data.id);
+		data.username = escapeHtml(data.username);
+		data.company = escapeHtml(data.company);
+		html += '<div class="ownerWrap"></div>';
+		$('#myPanel').append(html);
+	}
+	
+	html = "";
+	html += '<div id="user' + '999' + 'wrap" username="' + data.username + '" company="' + data.company +
+		'" owner_id="' + data.id + '" class="marblesWrap">';
+	html += '<div class="legend" style="' + size_user_name(data.username) + '">';
+	html += '我的合约';
+	html += '</div>';
+	html += '<div class="innerMarbleWrap"><i class="fa fa-plus addMarble"></i></div>';
+	html += '<div class="noMarblesMsg hint">没有合约</div>';
+	html += '</div>';
+	$("#myPanel .ownerWrap").append(html);
+	
 }
 
 //build company wrap
@@ -244,19 +284,4 @@ function build_a_tx(data, pos) {
 
 	html +=	'</div>';
 	return html;
-}
-Date.prototype.Format = function (fmt) {  
-    var o = {
-        "M+": this.getMonth() + 1,
-        "d+": this.getDate(), 
-        "H+": this.getHours(), 
-        "m+": this.getMinutes(),
-        "s+": this.getSeconds(),
-        "q+": Math.floor((this.getMonth() + 3) / 3),
-        "S": this.getMilliseconds()
-    };
-    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-    for (var k in o)
-    if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-    return fmt;
 }

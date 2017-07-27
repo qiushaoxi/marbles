@@ -44,8 +44,8 @@ $(document).on('ready', function () {
 			alert("期限未选择")
 			return false;
 		}
-		if(!price || parseFloat(price) != parseFloat(execution) + parseFloat(royalties)){
-			alert("全额应等于执行价与权利金之和")
+		if(!/\d/.test(price) || !/\d/.test(execution) || !/\d/.test(royalties)){
+			alert("全额/执行价/权利金要求是数字")
 			return false;
 		}
 		var obj = {
@@ -64,13 +64,18 @@ $(document).on('ready', function () {
 		console.log('creating marble, sending', obj);
 		$('#createPanel').fadeOut();
 		$('#tint').fadeOut();
-
+		// new add
+		var html = "";
+		html += '<span class="ball invalid bounce largeMarble"';
+		html += ' username="' + obj.username + '" company="' + obj.company + '" owner_id="' + obj.owner_id + '"><i></i></span>';
+		$('.marblesWrap[owner_id="' + obj.owner_id + '"]').find('.innerMarbleWrap').prepend(html);
+		
 		show_tx_step({ state: 'building_proposal' }, function () {
 			ws.send(JSON.stringify(obj));
 
 			refreshHomePanel();
-			$('.colorValue').html('Color');											//reset
-			for (var i in bgcolors) $('.createball').removeClass(bgcolors[i]);		//reset
+			// $('.colorValue').html('Color');											//reset
+			// for (var i in bgcolors) $('.createball').removeClass(bgcolors[i]);		//reset
 			$('.createball').css('border', '2px dashed #fff');						//reset
 		});
 
@@ -221,10 +226,10 @@ $(document).on('ready', function () {
 
 	//story mode selection
 	$('#disableStoryMode').click(function () {
-		set_story_mode('off');
+		set_story_mode('关');
 	});
 	$('#enableStoryMode').click(function () {
-		set_story_mode('on');
+		set_story_mode('开');
 	});
 
 	//close create panel
@@ -306,19 +311,19 @@ $(document).on('ready', function () {
 });
 
 //toggle story mode
-function set_story_mode(setting) {
-	if (setting === 'on') {
+function set_story_mode(setting) {  
+	if (setting === '开') {
 		fromLS.story_mode = true;
 		$('#enableStoryMode').prop('disabled', true);
 		$('#disableStoryMode').prop('disabled', false);
-		$('#storyStatus').addClass('storyOn').html('on');
+		$('#storyStatus').addClass('storyOn').html('开');
 		window.localStorage.setItem(lsKey, JSON.stringify(fromLS));		//save
 	}
 	else {
 		fromLS.story_mode = false;
 		$('#disableStoryMode').prop('disabled', true);
 		$('#enableStoryMode').prop('disabled', false);
-		$('#storyStatus').removeClass('storyOn').html('off');
+		$('#storyStatus').removeClass('storyOn').html('关');
 		window.localStorage.setItem(lsKey, JSON.stringify(fromLS));		//save
 	}
 }

@@ -8,7 +8,6 @@
  *******************************************************************************/
 var express = require('express');
 var router = express.Router();
-
 //anything in here gets passed to Pug template engine
 function build_bag(req) {
 	return {
@@ -50,11 +49,11 @@ router.route('/').get(function (req, res) {
 // Login
 // ============================================================================================================================
 router.route('/login').get(function (req, res) {
-	res.render('login', { title: 'Marbles - Login', bag: build_bag(req) });
+	res.render('login', { title: 'onechain - Login', bag: build_bag(req) });
 });
 
-router.route('/login').post(function (req, res) {
-	req.session.user = { username: 'Admin' };
+router.post('/login',function (req, res) {
+	req.session.user = { username: req.body.username};
 	res.redirect('/home');
 });
 
@@ -80,7 +79,11 @@ function route_me(req, res) {
 		res.redirect('/login');
 	}
 	else {
-		res.render('marbles', { title: 'Marbles - Home', bag: build_bag(req) });
+		var showStartupPanel = "";
+		if(req.session.user.username.toLowerCase() != "admin"){
+			showStartupPanel = "none"
+		}
+		res.render('marbles', {showStartupPanel:showStartupPanel,username:req.session.user.username, title: 'onechain - Home', bag: build_bag(req) });
 	}
 }
 

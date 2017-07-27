@@ -6,7 +6,7 @@
 	.txStepWrap#txStep1.inactiveStep
 		.txStatusWrap
 			.txStatus
-		.txLegend Build Proposal
+		.txLegend 发起交易提案
 		.txStoryWrap
 			.marbleWrap
 				div.ball#proposeMarbleStable.hideBorders.leftPos(title="Your marble tx")
@@ -16,14 +16,13 @@
 				div.ball#marbleBorderLeft.leftPos
 				div.ball#marbleBorderRight.leftPos
 		.txDescription
-			span The invocation needs to be signed and packaged as a proposal. 
-			span This is done here, in the Marbles application. 
+			span 此步骤发起交易并对其签名打包成为提案 
 
 	//----------------- Step 2 Content
 	.txStepWrap#txStep2.inactiveStep
 		.txStatusWrap
 			.txStatus
-		.txLegend Endorsement
+		.txLegend 交易背书
 		.txStoryWrap 
 			.marbleWrap
 				div.ball#endorseMarbleStable(title="Your marble tx")
@@ -31,15 +30,13 @@
 				div.ball#endorseMarble
 					span.fa.fa-check
 		.txDescription
-			span Next, we send the transaction proposal to our peer for endorsement. 
-			span The peer will simulate the transaction, verify the proposal, and then sign the proposal. 
-			span It is then sent back to Marbles.
+			span 此步骤中，发送交易提案到背书节点，背书节点模拟运行交易，确认提案的正确性并对其进行签名背书。
 
 	//----------------- Step 3 Content
 	.txStepWrap#txStep3.inactiveStep
 		.txStatusWrap
 			.txStatus
-		.txLegend Ordering
+		.txLegend 排序打包
 		.txStoryWrap
 			#orderBoxStable 
 				span.ball.ordererMarbles.hideMe(title="Another marble tx")
@@ -48,25 +45,23 @@
 					span.fa.fa-check
 				span.ball.ordererMarbles.hideMe(title="Another marble tx")
 					span.fa.fa-check
-				#orderBox Block
+				#orderBox 区块
 		.txDescription
-			span Then Marbles will send our endorsed proposal to the orderer. 
-			span The orderer will sequence transactions from throughout the network including ours. 
+			span 此步骤中，经过背书的交易提案被发送到排序节点。排序节点对整个网络中的交易（包扩本交易）进行排序，并打包成为区块。
 
 	//----------------- Step 4 Content
 	.txStepWrap#txStep4.inactiveStep
 		.txStatusWrap
 			.txStatus
-		.txLegend Validate & Commit
+		.txLegend 验证及生效
 		.txStoryWrap 
 			#commitBoxStable(title="Block")
 				span.fa.fa-search
 		.txDescription
-			span The block containing our transaction is sent from the orderer to our peer. 
-			span Finally it is validated by the peer and then committed to the peer's ledger. 
+			span 排序节点发送包含本次交易的区块到各个节点，每个节点在验证区块中交易的正确性后最终将交易生效到本地的账本中。
 
 	div
-		.hint * Note the speed of this process is slowed down for demonstration purposes
+		.hint *实际交易速度快于此处的展示动画
 
 	#txStoryErrorWrap 
 		span.fa.fa-warning(style="fill: #000;")
@@ -74,7 +69,7 @@
 
 	//----------------- All done
 	.stepHelpWrap#doneTxStep
-		h2 Invoke Complete
+		h2 交易完成
 		br
 		br
-		button(type="button").closeTxStory Close
+		button(type="button").closeTxStory 关闭

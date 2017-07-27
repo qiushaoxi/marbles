@@ -198,7 +198,7 @@ function story3_animation(cb){
 		setTimeout(function(){
 			$('#orderBoxStable').fadeIn(500);
 			setTimeout(function(){
-			$('#orderBoxStable').css('border', '2px #fff solid');
+			$('#orderBoxStable').css('border', '1px #fff solid');
 				setTimeout(function(){
 					$('#endorseMarble').hide();
 					if(cb) cb();
