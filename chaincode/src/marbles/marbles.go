@@ -21,10 +21,10 @@ package main
 
 import (
 	"fmt"
-	"strconv"
-
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 	pb "github.com/hyperledger/fabric/protos/peer"
+	"strconv"
+	//"time"
 )
 
 // SimpleChaincode example simple Chaincode implementation
@@ -37,25 +37,30 @@ type SimpleChaincode struct {
 
 // ----- Marbles ----- //
 type Marble struct {
-	ObjectType string        `json:"docType"` //field for couchdb
-	Id       string          `json:"id"`      //the fieldtags are needed to keep case from bouncing around
-	Color      string        `json:"color"`
-	Size       int           `json:"size"`    //size in mm of marble
-	Owner      OwnerRelation `json:"owner"`
+	ObjectType string `json:"docType"` //field for couchdb
+	Id         string `json:"id"`      //the fieldtags are needed to keep case from bouncing around
+	//Color      string        `json:"color"`
+	//Size       int           `json:"size"` //size in mm of marble
+	Owner     OwnerRelation `json:"owner"`
+	Target    string        `json:"target"`    //标的
+	Price     float64       `json:"price"`     //全额
+	Term      int64         `json:"term"`      //期限
+	Execution float64       `json:"execution"` //执行价
+	Royalties float64       `json:"royalties"` //权利金
 }
 
 // ----- Owners ----- //
 type Owner struct {
-	ObjectType string `json:"docType"`     //field for couchdb
+	ObjectType string `json:"docType"` //field for couchdb
 	Id         string `json:"id"`
 	Username   string `json:"username"`
 	Company    string `json:"company"`
 }
 
 type OwnerRelation struct {
-	Id         string `json:"id"`
-	Username   string `json:"username"`    //this is mostly cosmetic/handy, the real relation is by Id not Username
-	Company    string `json:"company"`     //this is mostly cosmetic/handy, the real relation is by Id not Company
+	Id       string `json:"id"`
+	Username string `json:"username"` //this is mostly cosmetic/handy, the real relation is by Id not Username
+	Company  string `json:"company"`  //this is mostly cosmetic/handy, the real relation is by Id not Company
 }
 
 // ============================================================================================================================
@@ -67,7 +72,6 @@ func main() {
 		fmt.Printf("Error starting Simple chaincode - %s", err)
 	}
 }
-
 
 // ============================================================================================================================
 // Init - initialize the chaincode - marbles don’t need anything initlization, so let's run a dead simple test instead
@@ -97,13 +101,12 @@ func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface) pb.Response {
 	// this is a very simple dumb test.  let's write to the ledger and error on any errors
 	err = stub.PutState("selftest", []byte(strconv.Itoa(Aval))) //making a test var "selftest", its handy to read this right away to test the network
 	if err != nil {
-		return shim.Error(err.Error())                          //self-test fail
+		return shim.Error(err.Error()) //self-test fail
 	}
 
-	fmt.Println(" - ready for action")                          //self-test pass
+	fmt.Println(" - ready for action") //self-test pass
 	return shim.Success(nil)
 }
-
 
 // ============================================================================================================================
 // Invoke - Our entry point for Invocations
@@ -114,25 +117,25 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface) pb.Response {
 	fmt.Println("starting invoke, for - " + function)
 
 	// Handle different functions
-	if function == "init" {                    //initialize the chaincode state, used as reset
+	if function == "init" { //initialize the chaincode state, used as reset
 		return t.Init(stub)
-	} else if function == "read" {             //generic read ledger
+	} else if function == "read" { //generic read ledger
 		return read(stub, args)
-	} else if function == "write" {            //generic writes to ledger
+	} else if function == "write" { //generic writes to ledger
 		return write(stub, args)
-	} else if function == "delete_marble" {    //deletes a marble from state
+	} else if function == "delete_marble" { //deletes a marble from state
 		return delete_marble(stub, args)
-	} else if function == "init_marble" {      //create a new marble
+	} else if function == "init_marble" { //create a new marble
 		return init_marble(stub, args)
-	} else if function == "set_owner" {        //change owner of a marble
+	} else if function == "set_owner" { //change owner of a marble
 		return set_owner(stub, args)
-	} else if function == "init_owner"{        //create a new marble owner
+	} else if function == "init_owner" { //create a new marble owner
 		return init_owner(stub, args)
-	} else if function == "read_everything"{   //read everything, (owners + marbles + companies)
+	} else if function == "read_everything" { //read everything, (owners + marbles + companies)
 		return read_everything(stub)
-	} else if function == "getHistory"{        //read history of a marble (audit)
+	} else if function == "getHistory" { //read history of a marble (audit)
 		return getHistory(stub, args)
-	} else if function == "getMarblesByRange"{ //read a bunch of marbles by start and stop id
+	} else if function == "getMarblesByRange" { //read a bunch of marbles by start and stop id
 		return getMarblesByRange(stub, args)
 	}
 
@@ -140,7 +143,6 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface) pb.Response {
 	fmt.Println("Received unknown invoke function name - " + function)
 	return shim.Error("Received unknown invoke function name - '" + function + "'")
 }
-
 
 // ============================================================================================================================
 // Query - legacy function
