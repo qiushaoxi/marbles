@@ -122,7 +122,7 @@ func read_everything(stub shim.ChaincodeStubInterface) pb.Response {
 	fmt.Println("marble array - ", everything.Marbles)
 
 	// ---- Get All Owners ---- //
-	ownersIterator, err := stub.GetStateByRange("o0", "o9999999999999999999")
+	ownersIterator, err := stub.GetStateByRange("o", "ozzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz") //"o0", "o9999999999999999999")
 	if err != nil {
 		return shim.Error(err.Error())
 	}
