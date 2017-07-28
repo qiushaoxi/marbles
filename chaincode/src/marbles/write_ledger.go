@@ -236,7 +236,8 @@ func init_marble(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 // Inputs - Array of Strings
 //           0     ,     1   ,   2
 //      owner id   , username, company
-// "o9999999999999",     bob", "united marbles"
+//old "o9999999999999",     bob", "united marbles"
+//change to "bob,           bob", "united marbles"
 // ============================================================================================================================
 func init_owner(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	var err error
@@ -254,7 +255,7 @@ func init_owner(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 
 	var owner Owner
 	owner.ObjectType = "marble_owner"
-	owner.Id = args[0]
+	owner.Id = "o" + args[1]
 	owner.Username = strings.ToLower(args[1])
 	owner.Company = args[2]
 	fmt.Println(owner)
